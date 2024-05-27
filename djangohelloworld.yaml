@@ -1,0 +1,32 @@
+apiVersion : v1
+kind : Service
+metadata :
+  name : djangohelloworld
+spec :
+  selector :
+    app : djangohelloworld
+  type : LoadBalancer
+  ports :
+    - port : 8000
+      targetPort : 8000
+---
+apiVersion : apps/v1
+kind : Deployment
+metadata :
+  name : djangohelloworld
+spec :
+  replicas : 1
+  selector :
+    matchLabels :
+      app : djangohelloworld
+  template :
+    metadata :
+      labels :
+        app : djangohelloworld
+    spec :
+      containers :
+      - name : djangohelloworld
+        image : deepcodr/django-hello-world
+        ports :
+          - containerPort : 8000
+        imagePullPolicy : Always
